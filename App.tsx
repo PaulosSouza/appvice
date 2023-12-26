@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native'
+import React, { useCallback } from 'react'
+
+import {
+  useFonts,
+  MontserratAlternates_400Regular,
+  MontserratAlternates_500Medium,
+} from '@expo-google-fonts/montserrat-alternates'
+
+import { DefaultLayout } from 'src/layouts/DefaultLayout'
+import * as SplashScreen from 'expo-splash-screen'
+import { ThemeProvider } from '@contexts/ThemeContext'
+
+SplashScreen.preventAutoHideAsync()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [fontsLoaded, fontError] = useFonts({
+    MontserratAlternates_400Regular,
+    MontserratAlternates_500Medium,
+  })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded, fontError])
+
+  if (!fontsLoaded && !fontError) {
+    return null
+  }
+
+  return (
+    <ThemeProvider>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <DefaultLayout />
+      </View>
+    </ThemeProvider>
+  )
+}

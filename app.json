@@ -1,11 +1,14 @@
 {
   "expo": {
-    "name": "no-fight-app",
-    "slug": "no-fight-app",
+    "name": "appvice",
+    "slug": "appvice",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "experiments": {
+      "tsconfigPaths": true
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
